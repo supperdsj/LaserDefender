@@ -1,25 +1,28 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.ExceptionServices;
 using UnityEditorInternal.VR;
 using UnityEngine;
 
 public class Player : MonoBehaviour {
     [SerializeField] float moveSpeed = 10;
     [SerializeField] float padding = 1f;
-
+    [SerializeField] GameObject laserPrefab;
+    [SerializeField] float laserSpeed = 20f;
+    [SerializeField] float laserPeriod = 0.1f;
+    [SerializeField] Coroutine fireCoroutine = null;
     float xMin;
     float xMax;
     float yMin;
     float yMax;
 
-    // Start is called before the first frame update
     void Start() {
         SetupMoveBoundaries();
     }
 
-    // Update is called once per frame
     void Update() {
         Move();
+        Fire();
     }
 
     void Move() {
@@ -28,6 +31,25 @@ public class Player : MonoBehaviour {
         var newXPos = Mathf.Clamp(transform.position.x + deltaX, xMin, xMax);
         var newYPos = Mathf.Clamp(transform.position.y + deltaY, yMin, yMax);
         transform.position = new Vector2(newXPos, newYPos);
+    }
+
+    void Fire() {
+        if (Input.GetButtonDown("Fire1")) {
+            fireCoroutine = StartCoroutine(FireContinuously());
+        }
+
+        if (Input.GetButtonUp("Fire1")) {
+            StopCoroutine(fireCoroutine);
+            // StopAllCoroutines();
+        }
+    }
+
+    IEnumerator FireContinuously() {
+        while (true) {
+            GameObject laser = Instantiate(laserPrefab, transform.position, Quaternion.identity);
+            laser.GetComponent<Rigidbody2D>().velocity = new Vector2(0, laserSpeed);
+            yield return new WaitForSeconds(laserPeriod);
+        }
     }
 
     void SetupMoveBoundaries() {
