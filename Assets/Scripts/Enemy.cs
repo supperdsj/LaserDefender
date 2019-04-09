@@ -10,6 +10,8 @@ public class Enemy : MonoBehaviour {
     [SerializeField] float maxTimeBetweenShot = 4f;
     [SerializeField] GameObject laserObject;
     [SerializeField] float laserSpeed = 10f;
+    [SerializeField] GameObject deathVFX;
+    [SerializeField] float durationOfExplosion = 1f;
 
     void Start() {
         shotCounter = Random.Range(minTimeBetweenShot, maxTimeBetweenShot);
@@ -41,7 +43,13 @@ public class Enemy : MonoBehaviour {
         damageDealer.Hit();
         health -= damageDealer.GetDamage();
         if (health <= 0) {
-            Destroy(gameObject);
+            Die();
         }
+    }
+
+    void Die() {
+        Destroy(gameObject);
+        GameObject explosion = Instantiate(deathVFX, transform.position, transform.rotation);
+        Destroy(explosion, durationOfExplosion);
     }
 }
