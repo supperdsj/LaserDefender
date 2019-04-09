@@ -36,6 +36,7 @@ public class Player : MonoBehaviour {
     void OnTriggerEnter2D(Collider2D other) {
         DamageDealer damageDealer = other.gameObject.GetComponent<DamageDealer>();
         if (!damageDealer) {
+            Debug.Log("no damage");
             return;
         }
 
@@ -49,6 +50,7 @@ public class Player : MonoBehaviour {
     void Die() {
         Destroy(gameObject);
         AudioSource.PlayClipAtPoint(deathSound, Camera.main.transform.position, deathSoundVolume);
+        FindObjectOfType<Level>().LoadGameOver();
     }
 
     void Move() {
