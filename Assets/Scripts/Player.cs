@@ -7,7 +7,7 @@ using UnityEngine;
 public class Player : MonoBehaviour {
     [Header("Player")] [SerializeField] float moveSpeed = 10;
     [SerializeField] float padding = 1f;
-    [SerializeField] float health = 200;
+    [SerializeField] int health = 200;
     [SerializeField] AudioClip deathSound;
     [SerializeField] [Range(0, 1)] float deathSoundVolume = 0.7f;
     [SerializeField] AudioClip shootSound;
@@ -72,6 +72,10 @@ public class Player : MonoBehaviour {
         }
     }
 
+    public int GetHealth() {
+        return health;
+    }
+    
     IEnumerator FireContinuously() {
         while (true) {
             GameObject laser = Instantiate(laserPrefab, transform.position, Quaternion.identity);
