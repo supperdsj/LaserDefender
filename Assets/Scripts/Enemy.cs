@@ -6,8 +6,8 @@ using UnityEngine.Experimental.Rendering;
 public class Enemy : MonoBehaviour {
     [SerializeField] float health = 100;
     [SerializeField] float shotCounter;
-    [SerializeField] float minTimeBetweenShot = 0.4f;
-    [SerializeField] float maxTimeBetweenShot = 0.5f;
+    [SerializeField] float minTimeBetweenShot = 3f;
+    [SerializeField] float maxTimeBetweenShot = 4f;
     [SerializeField] GameObject laserObject;
     [SerializeField] float laserSpeed = 10f;
 

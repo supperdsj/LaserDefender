@@ -108,8 +108,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 100
   shotCounter: 0
-  minTimeBetweenShot: 0.2
-  maxTimeBetweenShot: 0.3
+  minTimeBetweenShot: 0.5
+  maxTimeBetweenShot: 2
   laserObject: {fileID: 2325547297383976657, guid: b414fc297e48345f993d7afeaa8d9159,
     type: 3}
   laserSpeed: 10
