@@ -5,9 +5,13 @@ using UnityEditorInternal.VR;
 using UnityEngine;
 
 public class Player : MonoBehaviour {
-    [SerializeField] float moveSpeed = 10;
+    [Header("Player")] [SerializeField] float moveSpeed = 10;
     [SerializeField] float padding = 1f;
-    [SerializeField] GameObject laserPrefab;
+    [SerializeField] float health = 200;
+
+    [Header("Projectile")] [SerializeField]
+    GameObject laserPrefab;
+
     [SerializeField] float laserSpeed = 20f;
     [SerializeField] float laserPeriod = 0.1f;
     [SerializeField] Coroutine fireCoroutine = null;
@@ -23,6 +27,19 @@ public class Player : MonoBehaviour {
     void Update() {
         Move();
         Fire();
+    }
+
+    void OnTriggerEnter2D(Collider2D other) {
+        DamageDealer damageDealer = other.gameObject.GetComponent<DamageDealer>();
+        if (!damageDealer) {
+            return;
+        }
+
+        damageDealer.Hit();
+        health -= damageDealer.GetDamage();
+        if (health <= 0) {
+            Destroy(gameObject);
+        }
     }
 
     void Move() {
